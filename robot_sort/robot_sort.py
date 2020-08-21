@@ -96,22 +96,32 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        # Fill this out
-        # print(l)
-        # print(robot.move_left())
+
+        #base case, as long as we can move right we still have numbers to sort
         while robot.can_move_right():
             print(l)
+            #base actions
+            #Move right (intially from none)
             robot.move_right()
+            #grab item
             robot.swap_item()
+            #move to next item
             robot.move_right()
+            #if our held item is greater
             if robot.compare_item() == 1:
+                #swap em
                 robot.swap_item()
+                #take new item and place it where the old one was
                 robot.move_left()
                 robot.swap_item()
+                #run it again, this time starting from our new location
                 robot.sort()
-            elif robot.compare_item() == -1:
+            #if our held item is lesser or equal, just place it back where it was
+            elif robot.compare_item() == -1 or robot.compare_item() == 0:
+                #move back, and place the old item
                 robot.move_left()
                 robot.swap_item()
+                #move forward
                 robot.sort()
             
 

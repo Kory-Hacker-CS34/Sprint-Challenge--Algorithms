@@ -97,7 +97,25 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        # print(l)
+        # print(robot.move_left())
+        while robot.can_move_right():
+            print(l)
+            robot.move_right()
+            robot.swap_item()
+            robot.move_right()
+            if robot.compare_item() == 1:
+                robot.swap_item()
+                robot.move_left()
+                robot.swap_item()
+                robot.sort()
+            elif robot.compare_item() == -1:
+                robot.move_left()
+                robot.swap_item()
+                robot.sort()
+            
+
+        
 
 
 if __name__ == "__main__":
@@ -109,4 +127,4 @@ if __name__ == "__main__":
     robot = SortingRobot(l)
 
     robot.sort()
-    print(robot._list)
+    # print(robot._list)

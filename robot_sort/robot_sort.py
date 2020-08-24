@@ -96,33 +96,29 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-
-        #base case, as long as we can move right we still have numbers to sort
-        while robot.can_move_right():
-            print(l)
-            #base actions
-            #Move right (intially from none)
-            robot.move_right()
-            #grab item
-            robot.swap_item()
-            #move to next item
-            robot.move_right()
-            #if our held item is greater
-            if robot.compare_item() == 1:
-                #swap em
-                robot.swap_item()
-                #take new item and place it where the old one was
-                robot.move_left()
-                robot.swap_item()
-                #run it again, this time starting from our new location
-                robot.sort()
-            #if our held item is lesser or equal, just place it back where it was
-            elif robot.compare_item() == -1 or robot.compare_item() == 0:
-                #move back, and place the old item
-                robot.move_left()
-                robot.swap_item()
-                #move forward
-                robot.sort()
+        # grabbing the first item and setting our 'switch' for the while loop
+        self.swap_item()
+        self.set_light_on()
+        while self.light_is_on():
+            #iterating through each element while we can go right
+            while self.move_right():
+                #doing our comparison, if it's greater than 0 then it is 1, which means our held item
+                #is greater than the item in front of us, so we want to swap the items.
+                if self.compare_item() > 0:
+                    self.swap_item()
+            # now we have the smallest item in our list by the end of this, so we need to find where it goes.
+            #if we get to the end of the list, and there's an empty spot there, go ahead and place our last item down
+            if self.compare_item() is None and self.can_move_right() is False:
+                self.swap_item()
+                self.set_light_off()
+            #otherwise, we need to go left and find the empty spot where the item goes.
+            else:
+                while self.move_left():
+                    if self.compare_item() is None:
+                        self.swap_item()
+                        self.move_right()
+                        self.swap_item()
+                        break
             
 
         
@@ -133,8 +129,8 @@ if __name__ == "__main__":
     # with `python robot_sort.py`
 
     l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
-
+    # l = [3, 6, 4]
     robot = SortingRobot(l)
 
     robot.sort()
-    # print(robot._list)
+    print(robot._list)
